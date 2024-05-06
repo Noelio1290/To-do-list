@@ -1,0 +1,7 @@
+{
+  "name": "to-do-list",
+  "short_name": "to-do-list",
+  "description": "task management app",
+  "start_url": "/",
+  "display": "standalone"
+}

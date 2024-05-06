@@ -1,0 +1,33 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="to-do-element">
+  <template>
+    <h2 id="pendejada">Mira esta pendejada</h2>
+    <p>[[prop1]]</p>
+    <template is="dom-if" if="{{is-second-title-show}}" >
+      <h2 id="cuestion">[[prop2]]</h2>
+    </template>
+  </template>
+  <script>
+    class ToDoElement extends Polymer.Element {
+      static get is() { return 'to-do-element'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'mira esta otra pendejada'
+          },
+          prop2: {
+            type: String,
+            value: 'se puede?'
+          },
+          isSecondTitle: {
+            type: Boolean,
+            value: true
+          }
+        };
+      }
+    }
+    window.customElements.define(ToDoElement.is, ToDoElement);
+  </script>
+</dom-module>
