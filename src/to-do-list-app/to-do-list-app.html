@@ -9,8 +9,8 @@
       }
     </style>
     <h2>Hello [[prop1]]!</h2>
-    <to-do-element prop1="no mas pendejadas" prop2=""></to-do-element>
-    <to-do-element ></to-do-element>
+    <to-do-element prop1="no mas pendejadas" prop2="" ></to-do-element>
+    <to-do-element is-second-title="true" ></to-do-element>
     <to-do-element prop2="si c poede"></to-do-element>
   </template>
 
@@ -30,7 +30,6 @@
         };
       }
     }
-
     window.customElements.define(ToDoListApp.is, ToDoListApp);
   </script>
 </dom-module>

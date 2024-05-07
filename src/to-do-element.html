@@ -1,10 +1,11 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-if.html">
 
 <dom-module id="to-do-element">
   <template>
     <h2 id="pendejada">Mira esta pendejada</h2>
     <p>[[prop1]]</p>
-    <template is="dom-if" if="{{is-second-title-show}}" >
+    <template is="dom-if" if="[[isSecondTitle]]">
       <h2 id="cuestion">[[prop2]]</h2>
     </template>
   </template>
@@ -23,7 +24,7 @@
           },
           isSecondTitle: {
             type: Boolean,
-            value: true
+            value: false
           }
         };
       }
