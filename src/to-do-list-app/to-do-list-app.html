@@ -21,7 +21,7 @@
       }
       .new-text-container {
         border: 1px solid;
-        width: 270px;
+        width: 300px;
         align-items: center;
         background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente */
       }
@@ -33,14 +33,31 @@
       }
       .item-container {
         border: 1px solid;
-        width: 270px;
+        width: 500px;
         align-items: center;
         background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente */
+        display: flex; /* Hace que los elementos hijos se dispongan en una fila */
+        flex-direction: row;
+        align-items: center; /* Centra los elementos verticalmente */
       }
-      .item-container input {
+      .item-container input[type="text"] {
+        margin: 5px;
+        flex-grow: 1; /* Permite que el input de texto crezca y ocupe el espacio disponible */
+      }
+      .item-container input[type="checkbox"] {
         margin: 5px;
       }
       .item-container button {
+        margin: 5px;
+      }
+      .remove-checked-string-containers {
+        display: flex;
+        border: 1px solid;
+        width: 300px;
+        justify-content: center;
+        background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente */
+      }
+      .remove-checked-string-button {
         margin: 5px;
       }
     </style>
@@ -53,10 +70,15 @@
 
     <template is="dom-repeat" items="{{strings}}">
       <div  class="item-container">
-        <input type="text" value="{{item}}" on-change="updateString">
+        <input type="text" value="{{item.text}}" on-change="updateString">
+        <input type="checkbox" checked="{{item.checked::change}}">
         <button on-click="removeString">Eliminar</button>
       </div>
     </template>
+
+    <div class="remove-checked-string-containers">
+      <button class="remove-checked-string-button" on-click="removeCheckedStrings">Eliminar Seleccionados</button>
+    </div>
 
     <h2>Hello [[prop1]]!</h2>
     <to-do-element prop1="no mas pendejadas" prop2="" ></to-do-element>
@@ -77,14 +99,19 @@
           },
           strings: {
             type: Array,
-            value: []
+            value: function() {
+              return [
+                { text: 'Esta es mi primer tarea', checked: false },
+                { text: 'Esta es mi segunda tarea', checked: true }
+              ];
+            }  
           }
         };
       }
 
       addString() {
         if(this.newString) {
-          this.push('strings', this.newString);
+          this.push('strings', { text: this.newString, checked: false });
           this.newString = '';
         };
         console.log(this.strings);
@@ -93,7 +120,7 @@
       updateString(event) {
         const index = event.model.index;
         const updatedString = event.target.value;
-        this.set(`strings.${index}`, updatedString);
+        this.set(`strings.${index}.text`, updatedString);
         console.log(this.strings);
       }
 
@@ -102,6 +129,11 @@
         console.log(index)
         this.splice('strings', index, 1);
         console.log(this.strings);
+      }
+
+      removeCheckedStrings() {
+        this.strings = this.strings.filter(item => !item.checked);
+        console.log(this.strings)
       }
 
     }
