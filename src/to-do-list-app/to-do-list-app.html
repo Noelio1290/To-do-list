@@ -1,24 +1,68 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../to-do-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
 
 <dom-module id="to-do-list-app">
   <template>
     <style>
       :host {
-        display: block;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        border: 1px solid;
+        background-image: url('https://img.freepik.com/foto-gratis/pintura-lago-montana-montana-al-fondo_188544-9126.jpg?size=626&ext=jpg&ga=GA1.1.933601817.1717459200&semt=ais_user'); /* Cambia esto a la ruta de tu imagen */
+        background-size: cover; /* Ajusta la imagen para cubrir todo el elemento */
+        background-position: center; /* Centra la imagen */
+      }
+      h1 {
+        background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente */
+        padding: 10px; /* Espaciado interno para mejorar la legibilidad */
+        border-radius: 5px; /* Bordes redondeados para una mejor apariencia */
+      }
+      .new-text-container {
+        border: 1px solid;
+        width: 270px;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente */
+      }
+      .new-text-container input {
+        margin: 5px;
+      }
+      .new-text-container button {
+        margin: 5px;
+      }
+      .item-container {
+        border: 1px solid;
+        width: 270px;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente */
+      }
+      .item-container input {
+        margin: 5px;
+      }
+      .item-container button {
+        margin: 5px;
       }
     </style>
+    <h1>CRUD de Cadenas</h1>
+
+    <div class="new-text-container">
+      <input type="text" value="{{newString::input}}" placeholder="Nueva cadena">
+      <button on-click="addString">Agregar</button>
+    </div>
+
+    <template is="dom-repeat" items="{{strings}}">
+      <div  class="item-container">
+        <input type="text" value="{{item}}" on-change="updateString">
+        <button on-click="removeString">Eliminar</button>
+      </div>
+    </template>
+
     <h2>Hello [[prop1]]!</h2>
     <to-do-element prop1="no mas pendejadas" prop2="" ></to-do-element>
-    <to-do-element is-second-title="true" ></to-do-element>
-    <to-do-element prop2="si c poede"></to-do-element>
   </template>
 
   <script>
-    /**
-     * @customElement
-     * @polymer
-     */
     class ToDoListApp extends Polymer.Element {
       static get is() { return 'to-do-list-app'; }
       static get properties() {
@@ -26,9 +70,40 @@
           prop1: {
             type: String,
             value: 'to-do-list-app'
+          },
+          newString: {
+            type: String,
+            value: ''
+          },
+          strings: {
+            type: Array,
+            value: []
           }
         };
       }
+
+      addString() {
+        if(this.newString) {
+          this.push('strings', this.newString);
+          this.newString = '';
+        };
+        console.log(this.strings);
+      }
+
+      updateString(event) {
+        const index = event.model.index;
+        const updatedString = event.target.value;
+        this.set(`strings.${index}`, updatedString);
+        console.log(this.strings);
+      }
+
+      removeString(event) {
+        const index = event.model.index;
+        console.log(index)
+        this.splice('strings', index, 1);
+        console.log(this.strings);
+      }
+
     }
     window.customElements.define(ToDoListApp.is, ToDoListApp);
   </script>
